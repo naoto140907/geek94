@@ -1,0 +1,12 @@
+<h1>第 <%= @index + 1 %> 問</h1>
+<p><%= @quiz.question %></p>
+
+<%= form_with url: quizzes_answer_path, method: :post do %>
+  <%= hidden_field_tag :index, @index %>
+
+  <label><%= radio_button_tag :selected_option, 1 %> <%= @quiz.option1 %></label><br>
+  <label><%= radio_button_tag :selected_option, 2 %> <%= @quiz.option2 %></label><br>
+  <label><%= radio_button_tag :selected_option, 3 %> <%= @quiz.option3 %></label><br>
+
+  <%= submit_tag "回答して次へ" %>
+<% end %>

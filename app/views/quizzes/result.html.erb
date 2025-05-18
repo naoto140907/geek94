@@ -1,0 +1,9 @@
+<h1>クイズ結果</h1>
+<p>正解数: <%= @score %> / <%= @total %></p>
+
+<% if user_signed_in? %>
+  <p>あなたの累計ポイント: <%= current_user.points %> pt</p>
+<% end %>
+
+
+<%= link_to "トップへ戻る", tweets_path %>

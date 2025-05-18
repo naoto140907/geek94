@@ -1,7 +1,11 @@
 class TweetsController < ApplicationController
-  
+  before_action :authenticate_user!
+
   def index
     @tweets = Tweet.all
+    search = params[:search]
+    @tweets = @tweets.joins(:user).where("body LIKE ?", "%#{search}%") if search.present?
+    @tweets = @tweets.page(params[:page]).per(3)
   end
   
   def new
@@ -10,6 +14,9 @@ class TweetsController < ApplicationController
 
   def create
     tweet = Tweet.new(tweet_params)
+
+    tweet.user_id = current_user.id
+    
     if tweet.save
       redirect_to :action => "index"
     else
@@ -42,6 +49,6 @@ class TweetsController < ApplicationController
 
   private
   def tweet_params
-    params.require(:tweet).permit(:body)
+    params.require(:tweet).permit(:body, :image)
   end
 end
